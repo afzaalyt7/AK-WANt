@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Awareness Website</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .video { margin: 20px 0; }
+        .comments { margin: 20px 0; }
+        .comment { margin: 10px 0; }
+        .icon { display: inline-block; width: 24px; height: 24px; margin: 0 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Awareness on Social Media Practices</h1>
+
+        <div class="video">
+            <h2>Enter Video Link</h2>
+            <input type="text" id="videoLink" placeholder="Enter video URL">
+            <button onclick="loadVideo()">Start Video</button>
+            <div id="videoPlayer" style="display:none; margin-top: 20px;">
+                <h3>Watch This Video</h3>
+                <video width="100%" controls id="videoElement">
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div id="platformIcons" style="display:none; margin-top: 10px;">
+                <img id="youtubeIcon" class="icon" src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" alt="YouTube" />
+                <img id="tiktokIcon" class="icon" src="https://upload.wikimedia.org/wikipedia/en/thumb/6/60/TikTok_logo_2021.svg/1200px-TikTok_logo_2021.svg.png" alt="TikTok" />
+            </div>
+        </div>
+
+        <h2>YouTube Engagement</h2>
+        <div class="likes">
+            <button onclick="likeVideo()">Like</button>
+            <span id="youtubeLikeCount">0</span> Likes
+            <button onclick="addMultipleLikes(1000)">Add 1000 Likes</button>
+        </div>
+
+        <div class="subscribe">
+            <button onclick="subscribe()">Subscribe</button>
+            <span id="youtubeSubCount">0</span> Subscriptions
+            <button onclick="addMultipleSubs(100)">Add 100 Subs</button>
+        </div>
+
+        <div class="comments">
+            <h2>Comments</h2>
+            <input type="text" id="commentInput" placeholder="Write a comment...">
+            <button onclick="addComment()">Submit</button>
+            <input type="number" id="commentCountInput" placeholder="Number of Auto Comments" min="1">
+            <button onclick="addMultipleAutoComments(parseInt(document.getElementById('commentCountInput').value))">Add Auto Comments</button>
+            <div id="commentList"></div>
+        </div>
+
+        <h2>TikTok Engagement</h2>
+        <div class="tiktok">
+            <div>
+                <button onclick="addTikTokLikes()">Like</button>
+                <span id="tiktokLikeCount">0</span> Likes
+                <button onclick="addMultipleTikTokLikes(1000)">Add 1K Likes</button>
+            </div>
+            <div>
+                <button onclick="addTikTokFollowers()">Follow</button>
+                <span id="tiktokFollowerCount">0</span> Followers
+                <button onclick="addMultipleTikTokFollowers(2000)">Add 2K Followers</button>
+            </div>
+            <div>
+                <button onclick="addTikTokViews()">View</button>
+                <span id="tiktokViewCount">0</span> Views
+                <button onclick="addMultipleTikTokViews(4000)">Add 4K Views</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let youtubeLikeCount = 0;
+        let youtubeSubCount = 0;
+        let tiktokLikeCount = 0;
+        let tiktokFollowerCount = 0;
+        let tiktokViewCount = 0;
+        const commentList = document.getElementById('commentList');
+
+        function loadVideo() {
+            const videoLink = document.getElementById('videoLink').value;
+            const videoElement = document.getElementById('videoElement');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const platformIcons = document.getElementById('platformIcons');
+            const youtubeIcon = document.getElementById('youtubeIcon');
+            const tiktokIcon = document.getElementById('tiktokIcon');
+
+            if (videoLink.includes("youtube.com") || videoLink.includes("youtu.be")) {
+                videoElement.src = videoLink; // You can use a proper YouTube embed link if needed
+                platformIcons.style.display = 'block';
+                youtubeIcon.style.display = 'inline';
+                tiktokIcon.style.display = 'none';
+                videoPlayer.style.display = 'block';
+                videoElement.load();
+            } else if (videoLink.includes("tiktok.com")) {
+                videoElement.src = videoLink; // You can use a proper TikTok embed link if needed
+                platformIcons.style.display = 'block';
+                youtubeIcon.style.display = 'none';
+                tiktokIcon.style.display = 'inline';
+                videoPlayer.style.display = 'block';
+                videoElement.load();
+            } else {
+                alert("Please enter a valid YouTube or TikTok video URL.");
+            }
+        }
+
+        function likeVideo() {
+            youtubeLikeCount++;
+            document.getElementById('youtubeLikeCount').innerText = youtubeLikeCount;
+        }
+
+        function addMultipleLikes(count) {
+            youtubeLikeCount += count;
+            document.getElementById('youtubeLikeCount').innerText = youtubeLikeCount;
+        }
+
+        function subscribe() {
+            youtubeSubCount++;
+            document.getElementById('youtubeSubCount').innerText = youtubeSubCount;
+        }
+
+        function addMultipleSubs(count) {
+            youtubeSubCount += count;
+            document.getElementById('youtubeSubCount').innerText = youtubeSubCount;
+        }
+
+        function addComment() {
+            const commentInput = document.getElementById('commentInput');
+            if (commentInput.value) {
+                const comment = document.createElement('div');
+                comment.classList.add('comment');
+                comment.innerText = commentInput.value;
+                commentList.appendChild(comment);
+                commentInput.value = ''; // Clear input field
+            } else {
+                alert("Please enter a comment.");
+            }
+        }
+
+        function addMultipleAutoComments(count) {
+            const autoComments = [
+                "Nice video!", "Great content!", "Very informative!", "I love this!", "Thanks for sharing!",
+                "Awesome!", "Keep it up!", "Interesting perspective!", "Well explained!", "I learned a lot!",
+            ];
+
+            for (let i = 0; i < count; i++) {
+                const commentIndex = Math.floor(Math.random() * autoComments.length);
+                const commentText = autoComments[commentIndex];
+                const comment = document.createElement('div');
+                comment.classList.add('comment');
+                comment.innerText = commentText;
+                commentList.appendChild(comment);
+            }
+        }
+
+        function addTikTokLikes() {
+            tiktokLikeCount++;
+            document.getElementById('tiktokLikeCount').innerText = tiktokLikeCount;
+        }
+
+        function addMultipleTikTokLikes(count) {
+            tiktokLikeCount += count;
+            document.getElementById('tiktokLikeCount').innerText = tiktokLikeCount;
+        }
+
+        function addTikTokFollowers() {
+            tiktokFollowerCount++;
+            document.getElementById('tiktokFollowerCount').innerText = tiktokFollowerCount;
+        }
+
+        function addMultipleTikTokFollowers(count) {
+            tiktokFollowerCount += count;
+            document.getElementById('tiktokFollowerCount').innerText = tiktokFollowerCount;
+        }
+
+        function addTikTokViews() {
+            tiktokViewCount++;
+            document.getElementById('tiktokViewCount').innerText = tiktokViewCount;
+        }
+
+        function addMultipleTikTokViews(count) {
+            tiktokViewCount += count;
+            document.getElementById('tiktokViewCount').innerText = tiktokViewCount;
+        }
+    </script>
+</body>
+</html>
